@@ -1445,3 +1445,117 @@ button {
 .save-caption-button:active {
     transform: scale(0.98);
 }
+/* =========================================
+   LEON & MAJICA — ROMANTIC LUXURY MUSIC
+   Black • Burgundy • Champagne Gold
+   ========================================= */
+
+:root {
+    --music-gold: #f0cc8b;
+    --music-gold-light: #ffe7b2;
+    --music-burgundy: #651c30;
+    --music-black: #100608;
+}
+
+#musicPlayer,
+.music-player,
+.music-player.content-card {
+    border: 1px solid rgba(240, 204, 139, 0.35);
+    border-radius: 22px;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(112, 34, 53, 0.35),
+            transparent 55%
+        ),
+        linear-gradient(145deg, #1b0b10, #080607 75%);
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 231, 178, 0.08);
+}
+
+.music-player {
+    gap: 28px;
+    padding: 30px;
+}
+
+.album-art {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--music-gold);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 30% 25%, #84384b, transparent 55%),
+        linear-gradient(145deg, #481523, #100609);
+    color: var(--music-gold-light);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+.player-info {
+    color: #fff2dc;
+}
+
+#currentSongTitle {
+    color: var(--music-gold-light);
+    font-size: 26px;
+    letter-spacing: 0.3px;
+}
+
+#currentSongArtist {
+    color: #c4b4b1;
+}
+
+#audioPlayer {
+    accent-color: var(--music-gold);
+    filter: sepia(0.15);
+}
+
+.music-list {
+    border-top: 1px solid rgba(240, 204, 139, 0.18);
+}
+
+.song-item {
+    padding: 16px 10px;
+    border-bottom-color: rgba(240, 204, 139, 0.13);
+    border-radius: 10px;
+}
+
+.song-item:hover {
+    background: rgba(139, 51, 73, 0.18);
+}
+
+.song-number {
+    color: var(--music-gold);
+}
+
+.song-title {
+    color: #fff0dc;
+}
+
+.song-subtitle {
+    color: #b6a3a2;
+}
+
+.song-play-button {
+    border-color: rgba(240, 204, 139, 0.55);
+    background: linear-gradient(145deg, #572033, #241017);
+    color: var(--music-gold-light);
+    transition: 0.2s ease;
+}
+
+.song-play-button:hover {
+    border-color: var(--music-gold-light);
+    background: var(--music-burgundy);
+    transform: scale(1.06);
+}
+
+@media (max-width: 650px) {
+    .music-player {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    #currentSongTitle {
+        font-size: 22px;
+    }
+}
