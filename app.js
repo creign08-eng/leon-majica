@@ -3396,63 +3396,122 @@ if (nextButton) {
         }
     });
 }
-/* LOCK-SCREEN AND HEADPHONE CONTROLS */
+/* LOCK-SCREEN AND HEADPHONE CONTROLS — UPGRADED */
 
 if ("mediaSession" in navigator) {
+const player = document.getElementById("audioPlayer");
+const titleElement = document.getElementById("currentSongTitle");
+const artistElement = document.getElementById("currentSongArtist");
+const artworkElement = document.getElementById("albumArt");
 
-    const player =
-        document.getElementById("audioPlayer");
+function updateMediaSession() {
+    if (!player || !navigator.mediaSession) return;
 
-    function updateMediaSession() {
-        if (!player || !navigator.mediaSession) {
-            return;
-        }
+    const title = titleElement?.textContent?.trim() || "Leon & Majica";
+    const artist = artistElement?.textContent?.trim() || "Leon & Majica";
 
-        const title =
-            document.getElementById("currentSongTitle");
+    let artwork = [];
 
-        navigator.mediaSession.metadata =
-            new MediaMetadata({
-                title: title?.textContent || "Leon & Majica",
-                artist: "Leon & Majica",
-                album: "Our Memories"
+    const image = artworkElement?.querySelector("img");
+
+    if (image?.src) {
+        artwork = [
+            { src: image.src, sizes: "96x96", type: "image/jpeg" },
+            { src: image.src, sizes: "256x256", type: "image/jpeg" },
+            { src: image.src, sizes: "512x512", type: "image/jpeg" }
+        ];
+    }
+
+    try {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title,
+            artist,
+            album: "Leon & Majica — Our Memories",
+            artwork
+        });
+    } catch (error) {
+        console.warn("Media metadata could not be updated:", error);
+    }
+
+    try {
+        navigator.mediaSession.setActionHandler("play", async () => {
+            try {
+                await player.play();
+            } catch (error) {
+                console.warn("Playback could not start:", error);
+            }
+        });
+
+        navigator.mediaSession.setActionHandler("pause", () => {
+            player.pause();
+        });
+
+        navigator.mediaSession.setActionHandler("previoustrack", async () => {
+            if (currentPlaylist[currentSongIndex - 1]) {
+                await playSong(currentSongIndex - 1);
+            }
+        });
+
+        navigator.mediaSession.setActionHandler("nexttrack", async () => {
+            if (currentPlaylist[currentSongIndex + 1]) {
+                await playSong(currentSongIndex + 1);
+            }
+        });
+
+        navigator.mediaSession.setActionHandler("seekbackward", details => {
+            player.currentTime = Math.max(
+                0,
+                player.currentTime - (details.seekOffset || 10)
+            );
+        });
+
+        navigator.mediaSession.setActionHandler("seekforward", details => {
+            player.currentTime = Math.min(
+                player.duration || Infinity,
+                player.currentTime + (details.seekOffset || 10)
+            );
+        });
+    } catch (error) {
+        console.warn("Some media controls are unsupported:", error);
+    }
+}
+
+function updatePlaybackState() {
+    if (!navigator.mediaSession || !player) return;
+
+    navigator.mediaSession.playbackState =
+        player.paused ? "paused" : "playing";
+
+    if (Number.isFinite(player.duration) && player.duration > 0) {
+        try {
+            navigator.mediaSession.setPositionState({
+                duration: player.duration,
+                playbackRate: player.playbackRate || 1,
+                position: Math.min(player.currentTime, player.duration)
             });
-
-        navigator.mediaSession.setActionHandler(
-            "play",
-            () => player.play()
-        );
-
-        navigator.mediaSession.setActionHandler(
-            "pause",
-            () => player.pause()
-        );
-
-        navigator.mediaSession.setActionHandler(
-            "previoustrack",
-            async () => {
-                if (currentPlaylist[currentSongIndex - 1]) {
-                    await playSong(currentSongIndex - 1);
-                }
-            }
-        );
-
-        navigator.mediaSession.setActionHandler(
-            "nexttrack",
-            async () => {
-                if (currentPlaylist[currentSongIndex + 1]) {
-                    await playSong(currentSongIndex + 1);
-                }
-            }
-        );
+        } catch (error) {
+            // Position reporting is optional on some browsers.
+        }
     }
+}
 
-    if (player) {
-        player.addEventListener(
-            "play",
-            updateMediaSession
-        );
-    }
+if (player) {
+    player.addEventListener("play", () => {
+        updateMediaSession();
+        updatePlaybackState();
+    });
+
+    player.addEventListener("pause", updatePlaybackState);
+    player.addEventListener("playing", updatePlaybackState);
+    player.addEventListener("timeupdate", updatePlaybackState);
+    player.addEventListener("ratechange", updatePlaybackState);
+    player.addEventListener("loadedmetadata", updatePlaybackState);
+
+    player.addEventListener("ended", () => {
+        updatePlaybackState();
+    });
+}
+
 }
 initializeMessageForm();
 /* =========================================
