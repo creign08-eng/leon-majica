@@ -3341,6 +3341,61 @@ async function refreshMediaUrl(
    ========================================= */
 
 initializeAudioPlayer();
+/* ROMANTIC MUSIC PLAYER CONTROLS */
+
+const previousButton =
+    document.getElementById("previousSongButton");
+
+const playPauseButton =
+    document.getElementById("playPauseButton");
+
+const nextButton =
+    document.getElementById("nextSongButton");
+
+const musicPlayer =
+    document.getElementById("audioPlayer");
+
+if (previousButton) {
+    previousButton.addEventListener("click", async function () {
+        if (currentPlaylist[currentSongIndex - 1]) {
+            await playSong(currentSongIndex - 1);
+        }
+    });
+}
+
+if (playPauseButton && musicPlayer) {
+    playPauseButton.addEventListener("click", async function () {
+        if (musicPlayer.paused) {
+            if (currentSongIndex >= 0 && musicPlayer.src) {
+                await musicPlayer.play();
+            } else if (currentPlaylist.length > 0) {
+                await playSong(0);
+            }
+        } else {
+            musicPlayer.pause();
+        }
+    });
+
+    musicPlayer.addEventListener("play", function () {
+        playPauseButton.textContent = "❚❚";
+    });
+
+    musicPlayer.addEventListener("pause", function () {
+        playPauseButton.textContent = "▶";
+    });
+
+    musicPlayer.addEventListener("ended", function () {
+        playPauseButton.textContent = "▶";
+    });
+}
+
+if (nextButton) {
+    nextButton.addEventListener("click", async function () {
+        if (currentPlaylist[currentSongIndex + 1]) {
+            await playSong(currentSongIndex + 1);
+        }
+    });
+}
 
 initializeMessageForm();
 /* =========================================
