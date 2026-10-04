@@ -1592,3 +1592,122 @@ button {
     transform: scale(1.08);
     box-shadow: 0 0 16px rgba(240, 204, 139, 0.3);
 }
+/* LEON & MAJICA — LUXURY MUSIC PLAYER UPGRADE */
+
+#musicSection .music-player {
+position: relative;
+display: flex;
+align-items: center;
+gap: 28px;
+padding: 30px;
+overflow: hidden;
+border: 1px solid rgba(240, 204, 139, 0.55);
+border-radius: 22px;
+background:
+radial-gradient(ellipse at top, rgba(101, 28, 48, 0.35), transparent 65%),
+linear-gradient(145deg, #17080c, #050505);
+box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+#musicSection .album-art {
+width: clamp(120px, 30vw, 240px);
+height: clamp(120px, 30vw, 240px);
+flex: 0 0 auto;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+border: 2px solid #f0cc8b;
+border-radius: 16px;
+background: linear-gradient(145deg, #632238, #100608);
+color: #ffe7b2;
+font-size: 48px;
+box-shadow: 0 0 24px rgba(240, 204, 139, 0.12);
+}
+
+#musicSection .album-art img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+#musicSection .player-info {
+min-width: 0;
+flex: 1;
+}
+
+#musicSection #currentSongTitle {
+color: #ffe0a3;
+font-size: clamp(20px, 3vw, 30px);
+overflow-wrap: anywhere;
+}
+
+#musicSection #currentSongArtist {
+color: #c8b8b5;
+}
+
+#musicSection .music-controls {
+display: flex;
+align-items: center;
+justify-content: flex-start;
+flex-wrap: wrap;
+gap: 16px;
+margin: 22px 0;
+}
+
+#musicSection .music-controls button {
+width: 46px;
+height: 46px;
+border: 1px solid #d9b878;
+border-radius: 50%;
+background: linear-gradient(145deg, #572033, #16090e);
+color: #ffe7b2;
+font-size: 19px;
+}
+
+#musicSection .music-controls #playPauseButton {
+width: 62px;
+height: 62px;
+border-width: 2px;
+font-size: 25px;
+}
+
+#musicSection .music-controls button:hover {
+box-shadow: 0 0 18px rgba(240, 204, 139, 0.25);
+transform: scale(1.05);
+}
+
+#musicSection #audioPlayer {
+width: 100%;
+accent-color: #f0cc8b;
+}
+
+#musicSection .playlist-card {
+border-color: rgba(240, 204, 139, 0.3);
+background: linear-gradient(145deg, #13080b, #080607);
+}
+
+@media (max-width: 600px) {
+#musicSection .music-player {
+align-items: center;
+flex-direction: column;
+padding: 22px 16px;
+gap: 20px;
+}
+
+#musicSection .album-art {
+    width: min(72vw, 250px);
+    height: min(72vw, 250px);
+}
+
+#musicSection .player-info {
+    width: 100%;
+    text-align: center;
+}
+
+#musicSection .music-controls {
+    justify-content: center;
+    gap: 12px;
+}
+
+}
