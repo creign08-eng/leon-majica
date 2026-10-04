@@ -1559,3 +1559,36 @@ button {
         font-size: 22px;
     }
 }
+/* ROMANTIC MUSIC CONTROLS */
+
+.music-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 18px 0;
+}
+
+.music-controls button {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #f0cc8b;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #572033, #16090e);
+    color: #ffe7b2;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.music-controls #playPauseButton {
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+    background: linear-gradient(145deg, #85364b, #35101d);
+}
+
+.music-controls button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 16px rgba(240, 204, 139, 0.3);
+}
