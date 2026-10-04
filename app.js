@@ -3396,7 +3396,64 @@ if (nextButton) {
         }
     });
 }
+/* LOCK-SCREEN AND HEADPHONE CONTROLS */
 
+if ("mediaSession" in navigator) {
+
+    const player =
+        document.getElementById("audioPlayer");
+
+    function updateMediaSession() {
+        if (!player || !navigator.mediaSession) {
+            return;
+        }
+
+        const title =
+            document.getElementById("currentSongTitle");
+
+        navigator.mediaSession.metadata =
+            new MediaMetadata({
+                title: title?.textContent || "Leon & Majica",
+                artist: "Leon & Majica",
+                album: "Our Memories"
+            });
+
+        navigator.mediaSession.setActionHandler(
+            "play",
+            () => player.play()
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "pause",
+            () => player.pause()
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "previoustrack",
+            async () => {
+                if (currentPlaylist[currentSongIndex - 1]) {
+                    await playSong(currentSongIndex - 1);
+                }
+            }
+        );
+
+        navigator.mediaSession.setActionHandler(
+            "nexttrack",
+            async () => {
+                if (currentPlaylist[currentSongIndex + 1]) {
+                    await playSong(currentSongIndex + 1);
+                }
+            }
+        );
+    }
+
+    if (player) {
+        player.addEventListener(
+            "play",
+            updateMediaSession
+        );
+    }
+}
 initializeMessageForm();
 /* =========================================
    FAVORITE + DATE HELPERS
